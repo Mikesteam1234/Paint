@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Paint"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" Loaded="Window_Loaded">
+        Title="MR Paint - Michael Remley" Height="720" Width="1280" Loaded="Window_Loaded">
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <Menu>
                 <MenuItem Header="_File">
+                    <MenuItem Header="New" Click="NewMenuItem_Click"/>
                     <MenuItem Header="Open" Click="OpenMenuItem_Click"/>
                     <MenuItem Header="Save" Click="SaveMenuItem_Click"/>
                     <MenuItem Header="About" Click="AboutMenuItem_Click"/>
@@ -30,15 +31,15 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="50" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top">Fill</Button>
-                        <Button x:Name="FillColorButton" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Width="25" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" BorderThickness="0" Click="FillButton_Click">
-                            <Rectangle Stroke="Black" StrokeThickness="1" Width="23" Height="20"></Rectangle>
+                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="50" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" >Fill:</Label>
+                        <Button Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Width="25" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" BorderThickness="0" Click="FillButton_Click">
+                            <Rectangle x:Name="FillColorButton" Stroke="Black" StrokeThickness="1" Width="23" Height="20"></Rectangle>
                         </Button>
-                        <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Width="50" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">Brush</Button>
-                        <Button x:Name="BrushColorButton" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Width="25" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Black" BorderThickness="0" Click="BrushButton_Click">
-                            <Rectangle Stroke="Black" StrokeThickness="1" Width="23" Height="20"></Rectangle>
+                        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Width="50" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center">Border:</Label>
+                        <Button Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Width="25" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" BorderThickness="0" Click="BrushButton_Click">
+                            <Rectangle x:Name="BrushColorButton" Stroke="Black" StrokeThickness="1" Width="23" Height="20" Fill="Black"></Rectangle>
                         </Button>
-                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">Tools</Label>
+                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">Colors</Label>
                     </Grid>
                 </ToolBar>
                 <ToolBar ToolBarTray.IsLocked="True" ToolBar.OverflowMode="Never" Loaded="ToolBar_Loaded" Background="WhiteSmoke" Margin="0">
@@ -63,6 +64,27 @@
                             <Line X1="-6.25" X2="31.25" Y1="12.5" Y2="12.5" Stroke="Black" StrokeThickness="2" Width="25" Height="25"/>
                         </Button>
                         <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="1" HorizontalAlignment="Center" VerticalAlignment="Bottom">Shapes</Label>
+                    </Grid>
+                </ToolBar>
+                <ToolBar ToolBarTray.IsLocked="True" ToolBar.OverflowMode="Never" Loaded="ToolBar_Loaded" Background="WhiteSmoke" Margin="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                    
+                        <Slider x:Name="sizeSlider" Width="76" Grid.Row="0" VerticalAlignment="Center" IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="2" ValueChanged="Slider_ValueChanged">
+                        </Slider>
+
+                        <TextBox x:Name="BorderSizeText" Grid.Row="1" Width="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="25">
+                            1
+                        </TextBox>
+
+                        <Label Content="Border Size" Grid.Row="2" VerticalAlignment="Bottom" HorizontalContentAlignment="Center"/>
                     </Grid>
                 </ToolBar>
             </ToolBarTray>

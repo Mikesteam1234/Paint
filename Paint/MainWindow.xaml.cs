@@ -26,6 +26,8 @@ namespace Paint
         //Variables
         Point start;                //Mouse Start Position
         Point end;                  //Mouse Final Position
+        Color last_Fill;            //Last Fill Color
+        Color last_border;           //Last Border Color
         List<Shape> shapes;         //List of shapes for serialization
         Shape shape;                //Current Shape
 
@@ -37,14 +39,14 @@ namespace Paint
         private void myCanvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             //For Debugging
-            Console.WriteLine(e.GetPosition(myCanvas));
+            //Console.WriteLine(e.GetPosition(myCanvas));
             start = e.GetPosition(myCanvas);
         }
 
         private void myCanvas_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             //For Debugging
-            Console.WriteLine(e.GetPosition(myCanvas));
+            //Console.WriteLine(e.GetPosition(myCanvas));
             end = e.GetPosition(myCanvas);
             DrawShape();
         }
@@ -85,6 +87,7 @@ namespace Paint
             //Set Props
             shape.Width = end.X - start.X;
             shape.Height = end.Y - start.Y;
+            shape.Border = sizeSlider.Value + 1;
             shape.Xi = start.X;
             shape.Xf = end.X;
             shape.Yi = start.Y;
@@ -126,22 +129,24 @@ namespace Paint
 
         private void FillButton_Click(object sender, RoutedEventArgs e)
         {
-            ColorBox colorWindow = new ColorBox();
+            ColorBox colorWindow = new ColorBox(last_Fill);
             colorWindow.Owner = this;
             colorWindow.ShowDialog();
 
+            last_Fill = Color.FromRgb(colorWindow.red, colorWindow.green, colorWindow.blue);
             shape.Fill = Color.FromRgb(colorWindow.red, colorWindow.green, colorWindow.blue);
-            FillColorButton.Background = new SolidColorBrush(Color.FromRgb(colorWindow.red, colorWindow.green, colorWindow.blue));
+            FillColorButton.Fill = new SolidColorBrush(Color.FromRgb(colorWindow.red, colorWindow.green, colorWindow.blue));
         }
 
         private void BrushButton_Click(object sender, RoutedEventArgs e)
         {
-            ColorBox colorWindow = new ColorBox();
+            ColorBox colorWindow = new ColorBox(last_border);
             colorWindow.Owner = this;
             colorWindow.ShowDialog();
 
+            last_border = Color.FromRgb(colorWindow.red, colorWindow.green, colorWindow.blue);
             shape.Stroke = Color.FromRgb(colorWindow.red, colorWindow.green, colorWindow.blue);
-            BrushColorButton.Background = new SolidColorBrush(Color.FromRgb(colorWindow.red, colorWindow.green, colorWindow.blue));
+            BrushColorButton.Fill = new SolidColorBrush(Color.FromRgb(colorWindow.red, colorWindow.green, colorWindow.blue));
         }
 
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
@@ -149,16 +154,22 @@ namespace Paint
             System.Windows.Application.Current.Shutdown();
         }
 
+        private void NewMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            myCanvas.Children.Clear();
+        }
+
         private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string filename = "";
-            Microsoft.Win32.OpenFileDialog openFileDialog =
-                new Microsoft.Win32.OpenFileDialog();
-            openFileDialog.InitialDirectory = "";
-            openFileDialog.CheckFileExists = true;
+            Microsoft.Win32.SaveFileDialog saveFileDialog =
+                new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.InitialDirectory = "";
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.DefaultExt = "xml";
 
-            if (openFileDialog.ShowDialog() == true)
-                filename = openFileDialog.FileName;
+            if (saveFileDialog.ShowDialog() == true)
+                filename = saveFileDialog.FileName;
             else
                 return;
 
@@ -192,7 +203,17 @@ namespace Paint
 
             var serializer = new XmlSerializer(shapes.GetType());
             FileStream fs = new FileStream(filename, FileMode.Open);
-            shapes = (List<Shape>)serializer.Deserialize(fs);
+
+            try
+            {
+                shapes = (List<Shape>)serializer.Deserialize(fs);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(this, "Unable to open file, non xml format.");
+            }
+            
+
             fs.Close();
 
             myCanvas.Children.Clear();
@@ -219,7 +240,18 @@ namespace Paint
         {
             shape = new Shape();
             shape.Stroke = Color.FromRgb(0,0,0);
+            shape.Border = 1;
+            last_border = new Color();
+            last_border.R = 0; last_border.B = 0; last_border.G = 0;
+            last_Fill = new Color();
+            last_Fill.R = 255; last_Fill.B = 255; last_Fill.G = 255;       
             shapes = new List<Shape>();
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            BorderSizeText.Text = (sizeSlider.Value + 1).ToString();
+            shape.Border = sizeSlider.Value + 1;
         }
     }
 }

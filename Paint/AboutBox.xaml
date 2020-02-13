@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Paint"
         mc:Ignorable="d"
-        Title="AboutBox" Height="150" Width="200">
+        Title="AboutBox" Height="150" Width="200" ResizeMode="NoResize">
     <StackPanel>
         <Label>Program: MR Paint</Label>
         <Label Content="Author: Michael Remley"/>
         <Label Content="Email: michael.remley@oit.edu"/>
-        <Button HorizontalAlignment="Left" Margin="10" Width="50" Click="Button_Click">Back</Button>
+        <Button HorizontalAlignment="Center" Margin="10" Width="50" Click="Button_Click">Back</Button>
     </StackPanel>
 </Window>

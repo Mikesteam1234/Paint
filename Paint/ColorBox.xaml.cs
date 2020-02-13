@@ -29,12 +29,53 @@ namespace Paint
             InitializeComponent();
         }
 
+        public ColorBox(Color color)
+        {
+            InitializeComponent();
+            red = color.R;
+            green = color.G;
+            blue = color.B;
+            Green.Text = green.ToString();
+            Red.Text = red.ToString();
+            Blue.Text = blue.ToString();
+            Preview.Fill = new SolidColorBrush(color);
+        }
+
         private void Pick_Click(object sender, RoutedEventArgs e)
         {
-            red = Byte.Parse(Red.Text);
-            green = Byte.Parse(Green.Text);
-            blue = Byte.Parse(Blue.Text);
-            this.Close();
+            try
+            {
+                red = Byte.Parse(Red.Text);
+                green = Byte.Parse(Green.Text);
+                blue = Byte.Parse(Blue.Text);
+                this.Close();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Values must be between 0-255");
+            }
+        }
+        private void Color_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Preview.Fill = new SolidColorBrush(Color.FromRgb(Byte.Parse(Red.Text), green = Byte.Parse(Green.Text), blue = Byte.Parse(Blue.Text)));
+            }
+            catch (Exception)
+            {
+                //Log issue
+            }
+        }
+
+        private void Preset_Click(object sender, RoutedEventArgs e)
+        {
+            red = ((SolidColorBrush)((Rectangle)((Button)sender).Content).Fill).Color.R;
+            blue = ((SolidColorBrush)((Rectangle)((Button)sender).Content).Fill).Color.B;
+            green = ((SolidColorBrush)((Rectangle)((Button)sender).Content).Fill).Color.G;
+            Green.Text = green.ToString();
+            Blue.Text = blue.ToString();
+            Red.Text = red.ToString();
+            Preview.Fill = ((Rectangle)((Button)sender).Content).Fill;
         }
     }
 }
