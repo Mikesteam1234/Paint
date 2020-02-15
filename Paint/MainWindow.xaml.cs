@@ -27,7 +27,7 @@ namespace Paint
         Point start;                //Mouse Start Position
         Point end;                  //Mouse Final Position
         Color last_Fill;            //Last Fill Color
-        Color last_border;           //Last Border Color
+        Color last_border;          //Last Border Color
         List<Shape> shapes;         //List of shapes for serialization
         Shape shape;                //Current Shape
 
@@ -36,6 +36,7 @@ namespace Paint
             InitializeComponent();
         }
 
+        /* Purpose: Used to get the position of the mouse over the canvas on pressing down*/
         private void myCanvas_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             //For Debugging
@@ -43,6 +44,8 @@ namespace Paint
             start = e.GetPosition(myCanvas);
         }
 
+        /* Purpose: Used to get the position of the mouse over the canvas on releasing the mouse button
+           Calls the function DrawShape after getting mouse position data. */
         private void myCanvas_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             //For Debugging
@@ -51,6 +54,7 @@ namespace Paint
             DrawShape();
         }
 
+        /* Purpose: Called on instantiation of the tool bar, removes unwanted formatting */
         private void ToolBar_Loaded(object sender, RoutedEventArgs e)
         {
             ToolBar toolBar = sender as ToolBar;
@@ -66,6 +70,7 @@ namespace Paint
             }
         }
 
+        /* Purpose: Main function used to draw a shape object onto the canvas */
         private void DrawShape()
         {
             //Verify X Position of non line shape
@@ -114,19 +119,23 @@ namespace Paint
             shapes.Add(new Shape(shape));
         }
 
+        /* Purpose: Tool bar option to select what type of shape the shape object will become */
         private void LineButton_Click(object sender, RoutedEventArgs e)
         {
             shape.ShapeValue = Shape.ShapeType.Line;
         }
+        /* Purpose: Tool bar option to select what type of shape the shape object will become */
         private void EllipseButton_Click(object sender, RoutedEventArgs e)
         {
             shape.ShapeValue = Shape.ShapeType.Ellipse;
         }
+        /* Purpose: Tool bar option to select what type of shape the shape object will become */
         private void RectangleButton_Click(object sender, RoutedEventArgs e)
         {
             shape.ShapeValue = Shape.ShapeType.Rectangle;
         }
 
+        /* Purpose: Tool bar option to select what color the shape will fill with */
         private void FillButton_Click(object sender, RoutedEventArgs e)
         {
             ColorBox colorWindow = new ColorBox(last_Fill);
@@ -138,6 +147,7 @@ namespace Paint
             FillColorButton.Fill = new SolidColorBrush(Color.FromRgb(colorWindow.red, colorWindow.green, colorWindow.blue));
         }
 
+        /* Purpose: Tool bar option to select what type of color the border of the shape will become */
         private void BrushButton_Click(object sender, RoutedEventArgs e)
         {
             ColorBox colorWindow = new ColorBox(last_border);
@@ -149,16 +159,19 @@ namespace Paint
             BrushColorButton.Fill = new SolidColorBrush(Color.FromRgb(colorWindow.red, colorWindow.green, colorWindow.blue));
         }
 
+        /* Purpose: Menu option to close the application */
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }
 
+        /* Purpose: Menu option to clear the canvas of all shapes */
         private void NewMenuItem_Click(object sender, RoutedEventArgs e)
         {
             myCanvas.Children.Clear();
         }
 
+        /* Purpose: Menu option to save the current canvas by serializing shapes into xml */
         private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string filename = "";
@@ -180,6 +193,7 @@ namespace Paint
             writer.Close();
         }
 
+        /* Purpose: Menu option to open the about window */
         private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
         {
             AboutBox about = new AboutBox();
@@ -188,6 +202,7 @@ namespace Paint
             about.ShowDialog();
         }
 
+        /* Purpose: Menu option to open a current canvas by deserializing from xml*/
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string filename = "";
@@ -236,6 +251,7 @@ namespace Paint
 
         }
 
+        /* Purpose: Called on instantiation of the window object */
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             shape = new Shape();
@@ -248,6 +264,7 @@ namespace Paint
             shapes = new List<Shape>();
         }
 
+        /* Purpose: used to update the thickness of a shapes stroke */
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             BorderSizeText.Text = (sizeSlider.Value + 1).ToString();

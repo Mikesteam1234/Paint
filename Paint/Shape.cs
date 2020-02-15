@@ -47,6 +47,8 @@ namespace Paint
         public Color Fill { get; set; }
         public ShapeType ShapeValue { get; set; }
 
+        /* Purpose: Return a UIElement compatible object in terms of this shape object
+         * used to add a shape to a canvas*/
         public UIElement GetUIElement() {
 
             if (ShapeValue == ShapeType.Rectangle)

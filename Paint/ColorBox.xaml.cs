@@ -29,6 +29,7 @@ namespace Paint
             InitializeComponent();
         }
 
+        /* Purpose: one arg constructor that is used to set the preview and current colors */
         public ColorBox(Color color)
         {
             InitializeComponent();
@@ -41,6 +42,7 @@ namespace Paint
             Preview.Fill = new SolidColorBrush(color);
         }
 
+        /* Purpose: Called on click of the pick button */
         private void Pick_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -55,6 +57,9 @@ namespace Paint
                 MessageBox.Show("Values must be between 0-255");
             }
         }
+
+        /* Purpose: on deselection of the byte editor text box of any color
+         updates the preview Fill color, and does error checking */
         private void Color_LostFocus(object sender, RoutedEventArgs e)
         {
             try
@@ -67,6 +72,7 @@ namespace Paint
             }
         }
 
+        /* Purpose: Select a preset option for the different colors*/
         private void Preset_Click(object sender, RoutedEventArgs e)
         {
             red = ((SolidColorBrush)((Rectangle)((Button)sender).Content).Fill).Color.R;

@@ -80,7 +80,7 @@
                         <Slider x:Name="sizeSlider" Width="76" Grid.Row="0" VerticalAlignment="Center" IsSnapToTickEnabled="True" TickPlacement="Both" TickFrequency="2" ValueChanged="Slider_ValueChanged">
                         </Slider>
 
-                        <TextBox x:Name="BorderSizeText" Grid.Row="1" Width="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="25">
+                        <TextBox x:Name="BorderSizeText" Grid.Row="1" Width="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="25" IsReadOnly="True">
                             1
                         </TextBox>
 
